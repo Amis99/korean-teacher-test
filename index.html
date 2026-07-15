@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>칠판 테스트 | 국어 강사 자가진단</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap');
+        
+        :root {
+            --chalk-green: #0f3d1f;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', system-ui, sans-serif;
+        }
+        
+        .chalk-font {
+            font-family: 'Caveat', cursive;
+            font-weight: 700;
+        }
+
+        .chalkboard {
+            background-image: url('images/chalkboard-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .chalk-text {
+            color: #f0f0f0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5),
+                        -1px -1px 2px rgba(255,255,255,0.1);
+            font-weight: 700;
+        }
+
+        .chalk-border {
+            border: 8px solid #e8e8e8;
+            border-image: linear-gradient(#e8e8e8, #c0c0c0) 1;
+            box-shadow: 0 0 0 4px #0f3d1f,
+                        0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .question-card {
+            background: rgba(15, 61, 31, 0.85);
+            border: 3px solid #d1d5db;
+            box-shadow: 3px 3px 0 #111;
+        }
+
+        .rating-btn {
+            transition: all 0.1s ease;
+        }
+        
+        .rating-btn.active {
+            background-color: #facc15;
+            color: #0f3d1f;
+            border-color: #facc15;
+            box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.3);
+        }
+
+        .section-header {
+            background: linear-gradient(to right, #0f3d1f, #1a4a2a);
+            border-bottom: 4px solid #d1d5db;
+        }
+
+        .result-card {
+            background: rgba(255,255,255,0.95);
+            color: #0f3d1f;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .chalk-line {
+            height: 2px;
+            background: repeating-linear-gradient(
+                to right,
+                #d1d5db 0,
+                #d1d5db 4px,
+                transparent 4px,
+                transparent 12px
+            );
+        }
+
+        .mobile-container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-[#0f3d1f] text-[#f0f0f0] min-h-screen">
+    <!-- Header / Navbar -->
+    <nav class="bg-[#0a2a15] border-b-4 border-[#d1d5db] sticky top-0 z-50">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div class="w-10 h-10 bg-[#d1d5db] rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-chalkboard text-[#0f3d1f] text-2xl"></i>
+                </div>
+                <div>
+                    <span class="chalk-font text-3xl tracking-wider">칠판 테스트</span>
+                </div>
+            </div>
+            <div class="text-sm px-3 py-1 bg-[#1a4a2a] rounded-full border border-[#d1d5db]">
+                국어 강사 자가진단
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="chalkboard py-12 px-4">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="inline-flex items-center gap-x-2 bg-[#0f3d1f]/80 px-4 py-1 rounded-full mb-4 border border-[#d1d5db]">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span class="text-sm">수능 · 내신 · 독서논술 · 인문논술</span>
+            </div>
+            
+            <h1 class="chalk-font text-6xl md:text-7xl leading-none tracking-tighter mb-4">
+                분필로 쓰는<br>내 강사 이야기
+            </h1>
+            <p class="text-xl text-[#d1d5db] max-w-md mx-auto mb-8">
+                학원 국어 강사로서의 강점, 약점, 그리고 나에게 맞는 전문 분야를 찾아보세요.
+            </p>
+            
+            <button onclick="startQuiz()"
+                    class="px-8 py-4 bg-[#facc15] hover:bg-[#eab308] text-[#0f3d1f] font-bold text-xl rounded-2xl shadow-lg flex items-center gap-x-3 mx-auto active:scale-[0.985] transition">
+                <span>지금 테스트 시작하기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            
+            <div class="mt-6 text-sm text-[#a3b18a]">
+                총 28문항 · 약 5~7분 소요 · 결과 즉시 확인
+            </div>
+        </div>
+    </div>
+
+    <!-- 소개 Section -->
+    <div class="max-w-2xl mx-auto px-4 py-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 분야 카드 -->
+            <div class="question-card rounded-3xl p-5">
+                <div class="flex items-center gap-x-3 mb-3">
+                    <i class="fa-solid fa-book text-[#facc15] text-2xl"></i>
+                    <span class="font-bold text-lg">전문 분야 4가지</span>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between"><span class="text-[#d1d5db]">초중고 독서논술</span> <span class="text-[#facc15]">흥미·토론</span></div>
+                    <div class="flex justify-between"><span class="text-[#d1d5db]">내신 전문</span> <span class="text-[#facc15]">교과서·세밀</span></div>
+                    <div class="flex justify-between"><span class="text-[#d1d5db]">수능 전문</span> <span class="text-[#facc15]">전략·실전</span></div>
+                    <div class="flex justify-between"><span class="text-[#d1d5db]">인문논술 전문</span> <span class="text-[#facc15]">논증·첨삭</span></div>
+                </div>
+            </div>
+            
+            <div class="question-card rounded-3xl p-5">
+                <div class="flex items-center gap-x-3 mb-3">
+                    <i class="fa-solid fa-lightbulb text-[#facc15] text-2xl"></i>
+                    <span class="font-bold text-lg">이 테스트로 알 수 있는 것</span>
+                </div>
+                <ul class="space-y-1.5 text-sm">
+                    <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-[#facc15] mt-1"></i> <span>나의 강점과 보완점</span></li>
+                    <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-[#facc15] mt-1"></i> <span>가장 잘 맞는 전문 분야</span></li>
+                    <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-[#facc15] mt-1"></i> <span>강사 성향 (동물/캐릭터 비유)</span></li>
+                    <li class="flex items-start gap-x-2"><i class="fa-solid fa-check text-[#facc15] mt-1"></i> <span>구체적인 성장 조언</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section" class="hidden max-w-2xl mx-auto px-4 pb-12">
+        <div class="sticky top-16 z-40 bg-[#0f3d1f] py-3 border-b-2 border-[#d1d5db]">
+            <div class="flex items-center justify-between px-1">
+                <div>
+                    <span id="progress-text" class="font-mono text-sm">진행률 0%</span>
+                </div>
+                <div class="w-40 bg-[#1a4a2a] rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="h-2.5 bg-[#facc15] transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions will be injected by JS -->
+        <div id="questions-container" class="space-y-8 mt-6"></div>
+
+        <div class="mt-8 flex justify-center">
+            <button onclick="calculateResults()"
+                    class="px-10 py-4 bg-[#facc15] hover:bg-[#eab308] text-[#0f3d1f] font-bold text-xl rounded-3xl flex items-center gap-x-3 shadow-xl active:scale-[0.985]">
+                <span>결과 보기</span>
+                <i class="fa-solid fa-magic"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="hidden max-w-2xl mx-auto px-4 pb-16">
+        <div class="text-center mb-8">
+            <div class="inline-block px-5 py-1.5 bg-[#facc15] text-[#0f3d1f] rounded-full text-sm font-bold mb-3">결과 분석 완료</div>
+            <h2 class="chalk-font text-5xl">분필로 쓴 당신의 이야기</h2>
+        </div>
+
+        <!-- Core Score -->
+        <div class="question-card rounded-3xl p-6 mb-6">
+            <div class="flex justify-between items-end mb-2">
+                <div>
+                    <span class="text-sm text-[#d1d5db]">공통 핵심 역량</span>
+                    <div id="core-score" class="text-6xl font-bold text-[#facc15]"></div>
+                </div>
+                <div class="text-right text-sm">
+                    <span class="text-[#d1d5db]">5점 만점</span>
+                </div>
+            </div>
+            <div class="h-3 bg-[#1a4a2a] rounded-full overflow-hidden">
+                <div id="core-bar" class="h-3 bg-[#facc15] transition-all" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Field Scores -->
+        <div class="mb-8">
+            <h3 class="font-bold text-xl mb-4 px-1 flex items-center gap-x-2">
+                <i class="fa-solid fa-chart-bar"></i> 
+                <span>전문 분야별 점수</span>
+            </h3>
+            <div class="space-y-4" id="field-scores"></div>
+        </div>
+
+        <!-- Recommended Field -->
+        <div class="question-card rounded-3xl p-6 mb-8 border-2 border-[#facc15]">
+            <div class="text-sm text-[#facc15] font-bold mb-1">추천 전문 분야</div>
+            <div id="recommended-field" class="text-3xl font-bold mb-3"></div>
+            <div id="field-advice" class="text-[#0f3d1f] text-[15px] leading-relaxed"></div>
+        </div>
+
+        <!-- Personality Type -->
+        <div class="mb-8">
+            <h3 class="font-bold text-xl mb-4 px-1">당신의 강사 유형</h3>
+            <div id="personality-card" class="result-card rounded-3xl p-6 flex flex-col md:flex-row gap-6 items-center">
+                <!-- JS injected content -->
+            </div>
+        </div>
+
+        <!-- Strengths & Weaknesses -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="question-card rounded-3xl p-5">
+                <div class="flex items-center gap-x-2 text-[#facc15] mb-3">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <span class="font-bold">강점</span>
+                </div>
+                <div id="strengths-list" class="text-sm space-y-1.5 text-[#0f3d1f]"></div>
+            </div>
+            <div class="question-card rounded-3xl p-5">
+                <div class="flex items-center gap-x-2 text-[#facc15] mb-3">
+                    <i class="fa-solid fa-exclamation-triangle"></i>
+                    <span class="font-bold">보완점</span>
+                </div>
+                <div id="weaknesses-list" class="text-sm space-y-1.5 text-[#0f3d1f]"></div>
+            </div>
+        </div>
+
+        <!-- Growth Advice -->
+        <div class="question-card rounded-3xl p-6 mb-8">
+            <div class="flex items-center gap-x-2 text-[#facc15] mb-3">
+                <i class="fa-solid fa-seedling"></i>
+                <span class="font-bold text-lg">성장 조언</span>
+            </div>
+            <div id="growth-advice" class="text-[#0f3d1f] leading-relaxed text-[15px]"></div>
+        </div>
+
+        <div class="flex gap-3">
+            <button onclick="restartQuiz()" 
+                    class="flex-1 py-3.5 border-2 border-[#d1d5db] hover:bg-[#1a4a2a] rounded-2xl font-bold flex items-center justify-center gap-x-2">
+                <i class="fa-solid fa-redo"></i>
+                <span>다시 테스트하기</span>
+            </button>
+            <button onclick="window.location.reload()" 
+                    class="flex-1 py-3.5 bg-[#facc15] text-[#0f3d1f] font-bold rounded-2xl flex items-center justify-center gap-x-2">
+                <span>처음으로</span>
+            </button>
+        </div>
+    </div>
+
+    <footer class="text-center text-xs text-[#6b7f5e] py-8">
+        Made with ❤️ for 국어 강사님들 · GitHub Pages로 배포 가능
+    </footer>
+
+    <script>
+        // Tailwind script
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#facc15');
+        }
+
+        // Questions Data
+        const questions = {
+            core: [
+                { id: "c1", text: "국어 지문을 구조화하고 핵심을 명확하게 정리해 학생들에게 전달할 수 있다." },
+                { id: "c2", text: "학생 수준에 맞춰 설명의 깊이와 난이도를 조절할 수 있다." },
+                { id: "c3", text: "효과적인 판서(또는 시각 자료)를 통해 학생들의 이해를 돕는다." },
+                { id: "c4", text: "학생들의 약점을 정확히 진단하고 맞춤 전략을 제시할 수 있다." },
+                { id: "c5", text: "수업 자료(요약지, 개념도, 문제)를 학생 입장에서 실용적으로 제작할 수 있다." },
+                { id: "c6", text: "학생들의 동기와 집중을 유지시키는 데 자신이 있다." },
+                { id: "c7", text: "학부모나 학생과 소통하며 신뢰를 쌓을 수 있다." },
+                { id: "c8", text: "지속적으로 새로운 교재·트렌드를 분석하고 수업에 반영할 수 있다." }
+            ],
+            reading: [
+                { id: "r1", text: "어린 학생들에게 독서를 재미있게 느끼게 만들고 토론을 자연스럽게 유도할 수 있다." },
+                { id: "r2", text: "연령에 맞는 비유와 활동을 통해 문해력과 표현력을 키워줄 수 있다." },
+                { id: "r3", text: "독후 활동이나 창의적인 글쓰기 과제를 재미있고 효과적으로 설계할 수 있다." },
+                { id: "r4", text: "초·중등 학생들의 흥미와 참여를 이끌어내는 데 에너지가 넘친다." },
+                { id: "r5", text: "기초적인 논리적 글쓰기(주장-근거)를 재미있게 가르칠 수 있다." }
+            ],
+            naesin: [
+                { id: "n1", text: "특정 학교 교과서와 수행평가 유형을 깊이 분석하고 대비 전략을 세울 수 있다." },
+                { id: "n2", text: "학교 내신 출제 경향을 예측하고, 그에 맞는 문제를 제작·지도할 수 있다." },
+                { id: "n3", text: "교과서 지문 하나하나를 세밀하게 분석하며 학생들에게 설명할 수 있다." },
+                { id: "n4", text: "서술형·논술형 답안 작성 지도를 구체적으로 할 수 있다." },
+                { id: "n5", text: "학교 시험 기간에 학생들을 밀착 관리하고 피드백을 줄 수 있다." }
+            ],
+            sooneung: [
+                { id: "s1", text: "수능 국어의 출제 경향과 새로운 문제 유형을 빠르게 분석할 수 있다." },
+                { id: "s2", text: "비문학 지문을 효율적으로 읽고 핵심을 파악하는 전략을 체계적으로 가르칠 수 있다." },
+                { id: "s3", text: "80분 안에 문제를 풀 수 있는 시간 관리 전략과 실전 감각을 전달할 수 있다." },
+                { id: "s4", text: "문학 작품을 수능 관점에서 분석하고, 선택지 판단 기준을 명확히 제시할 수 있다." },
+                { id: "s5", text: "고득점을 위한 실전 기술(선지 분석, 함정 피하기 등)을 잘 가르친다." }
+            ],
+            nonsul: [
+                { id: "ns1", text: "인문·사회·철학 주제에 대해 논리적으로 사고하고 구조화할 수 있다." },
+                { id: "ns2", text: "논술 답안의 논증 구조(주장-근거-반박-결론)를 체계적으로 지도할 수 있다." },
+                { id: "ns3", text: "학생의 글을 읽고 구체적이고 발전적인 첨삭 피드백을 줄 수 있다." },
+                { id: "ns4", text: "대학별 논술 유형과 요구사항을 분석해 맞춤 전략을 제시할 수 있다." },
+                { id: "ns5", text: "학생들이 자신의 생각을 논리적으로 표현하고 깊이 있게 발전시키도록 도울 수 있다." }
+            ],
+            style: [
+                { id: "st1", text: "수업할 때 유머나 재미있는 이야기로 분위기를 밝게 만드는 것을 좋아한다." },
+                { id: "st2", text: "학생 개개인의 약점을 세밀하게 분석하고 맞춤 지도를 하는 데 보람을 느낀다." },
+                { id: "st3", text: "명확한 전략과 방법론을 제시하는 것을 중요하게 생각한다." },
+                { id: "st4", text: "독창적인 자료나 프레임워크를 만드는 데 흥미가 크다." },
+                { id: "st5", text: "깊이 있는 분석과 논리적 설명을 가장 잘한다고 생각한다." }
+            ]
+        };
+
+        let answers = {};
+
+        function createQuestionHTML(q, section) {
+            return `
+                <div class="question-card rounded-3xl p-5">
+                    <div class="mb-4 text-[15px] leading-snug">${q.text}</div>
+                    <div class="flex gap-1.5 justify-center" id="rating-${q.id}">
+                        ${[1,2,3,4,5].map(num => `
+                            <button onclick="selectRating('${q.id}', ${num}, this)"
+                                    class="rating-btn flex-1 py-2.5 text-sm font-bold border-2 border-[#d1d5db] rounded-xl active:scale-95 transition">
+                                ${num}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectRating(qId, value, element) {
+            // Deselect siblings
+            const container = element.parentElement;
+            container.querySelectorAll('button').forEach(btn => btn.classList.remove('active', 'bg-[#facc15]', 'text-[#0f3d1f]', 'border-[#facc15]'));
+            
+            // Select current
+            element.classList.add('active', 'bg-[#facc15]', 'text-[#0f3d1f]', 'border-[#facc15]');
+            
+            answers[qId] = value;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalQuestions = Object.keys(questions).reduce((sum, key) => sum + questions[key].length, 0);
+            const answered = Object.keys(answers).length;
+            const percent = Math.round((answered / totalQuestions) * 100);
+            
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-text').innerText = `진행률 ${percent}%`;
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            // Core
+            const coreDiv = document.createElement('div');
+            coreDiv.innerHTML = `
+                <div class="section-header px-5 py-2.5 rounded-t-3xl mb-1">
+                    <span class="font-bold">섹션 1. 공통 핵심 역량</span>
+                </div>
+            `;
+            questions.core.forEach(q => {
+                coreDiv.innerHTML += createQuestionHTML(q, 'core');
+            });
+            container.appendChild(coreDiv);
+
+            // Reading
+            const readingDiv = document.createElement('div');
+            readingDiv.innerHTML = `
+                <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
+                    <span class="font-bold">섹션 2. 초중고 독서논술</span>
+                </div>
+            `;
+            questions.reading.forEach(q => {
+                readingDiv.innerHTML += createQuestionHTML(q, 'reading');
+            });
+            container.appendChild(readingDiv);
+
+            // Naesin
+            const naesinDiv = document.createElement('div');
+            naesinDiv.innerHTML = `
+                <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
+                    <span class="font-bold">섹션 3. 내신 전문</span>
+                </div>
+            `;
+            questions.naesin.forEach(q => {
+                naesinDiv.innerHTML += createQuestionHTML(q, 'naesin');
+            });
+            container.appendChild(naesinDiv);
+
+            // Sooneung
+            const sooneungDiv = document.createElement('div');
+            sooneungDiv.innerHTML = `
+                <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
+                    <span class="font-bold">섹션 4. 수능 전문</span>
+                </div>
+            `;
+            questions.sooneung.forEach(q => {
+                sooneungDiv.innerHTML += createQuestionHTML(q, 'sooneung');
+            });
+            container.appendChild(sooneungDiv);
+
+            // Nonsul
+            const nonsulDiv = document.createElement('div');
+            nonsulDiv.innerHTML = `
+                <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
+                    <span class="font-bold">섹션 5. 인문논술</span>
+                </div>
+            `;
+            questions.nonsul.forEach(q => {
+                nonsulDiv.innerHTML += createQuestionHTML(q, 'nonsul');
+            });
+            container.appendChild(nonsulDiv);
+
+            // Style
+            const styleDiv = document.createElement('div');
+            styleDiv.innerHTML = `
+                <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
+                    <span class="font-bold">섹션 6. 강사 성향</span>
+                </div>
+            `;
+            questions.style.forEach(q => {
+                styleDiv.innerHTML += createQuestionHTML(q, 'style');
+            });
+            container.appendChild(styleDiv);
+        }
+
+        function startQuiz() {
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('quiz-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            renderQuestions();
+            // Auto scroll hint
+            setTimeout(() => {
+                window.scrollBy(0, 80);
+            }, 800);
+        }
+
+        function calculateResults() {
+            const totalAnswered = Object.keys(answers).length;
+            const expected = Object.keys(questions).reduce((sum, k) => sum + questions[k].length, 0);
+            
+            if (totalAnswered < expected * 0.9) {
+                if (!confirm('아직 답변하지 않은 문항이 있습니다. 그래도 결과를 보시겠습니까?')) {
+                    return;
+                }
+            }
+
+            // Calculate scores
+            const coreScore = calculateAverage(questions.core);
+            const readingScore = calculateAverage(questions.reading);
+            const naesinScore = calculateAverage(questions.naesin);
+            const sooneungScore = calculateAverage(questions.sooneung);
+            const nonsulScore = calculateAverage(questions.nonsul);
+            const styleScore = calculateAverage(questions.style); // not used directly
+
+            // Find top field
+            const fields = {
+                '초중고 독서논술': readingScore,
+                '내신 전문': naesinScore,
+                '수능 전문': sooneungScore,
+                '인문논술 전문': nonsulScore
+            };
+
+            const sortedFields = Object.entries(fields).sort((a, b) => b[1] - a[1]);
+            const topField = sortedFields[0][0];
+            const topScore = sortedFields[0][1];
+
+            // Determine personality type
+            let personality = determinePersonality(readingScore, naesinScore, sooneungScore, nonsulScore, answers);
+
+            // Show results
+            showResults(coreScore, fields, topField, topScore, personality);
+        }
+
+        function calculateAverage(sectionQuestions) {
+            let sum = 0;
+            let count = 0;
+            sectionQuestions.forEach(q => {
+                if (answers[q.id]) {
+                    sum += answers[q.id];
+                    count++;
+                }
+            });
+            return count > 0 ? (sum / count) : 3.0;
+        }
+
+        function determinePersonality(reading, naesin, sooneung, nonsul, answers) {
+            // Simple rule-based
+            const funScore = (answers['st1'] || 3) + (answers['r4'] || 3);
+            const analysisScore = (answers['st5'] || 3) + (naesin + sooneung) / 2;
+            const strategyScore = (answers['st3'] || 3) + sooneung;
+            const creatorScore = (answers['st4'] || 3) + nonsul;
+
+            if (funScore >= 8 && reading >= 4.0) {
+                return {
+                    type: "재미를 아는 토끼",
+                    emoji: "🐰",
+                    image: "images/rabbit-chalk.png",
+                    desc: "에너지가 넘치고 학생들을 즐겁게 만드는 타입. 토론과 창의적 활동을 좋아합니다.",
+                    strength: "학생 참여도와 흥미 유발이 뛰어나며, 분위기를 밝게 만듭니다.",
+                    weakness: "깊이 있는 분석이나 체계적인 전략 설명이 다소 약할 수 있습니다.",
+                    advice: "독서논술이나 초중등 프로그램에서 강점을 발휘할 수 있어요. 재미있는 자료 제작을 더 발전시키세요."
+                };
+            } else if (analysisScore >= 8 && (naesin >= 4.0 || sooneung >= 4.0)) {
+                return {
+                    type: "지혜로운 올빼미",
+                    emoji: "🦉",
+                    image: "images/owl-chalk.png",
+                    desc: "깊이 파고드는 분석가. 논리와 근거를 중시하며 학생들의 이해를 세밀하게 돕습니다.",
+                    strength: "지문 분석력과 개념 설명이 뛰어나 상위권 학생들에게 큰 도움이 됩니다.",
+                    weakness: "수업이 무거워질 수 있고, 유머나 에너지 전달이 부족할 수 있습니다.",
+                    advice: "내신이나 수능 전문으로 가는 게 좋습니다. 판서와 설명의 명확성을 더 갈고닦으세요."
+                };
+            } else if (strategyScore >= 8 && sooneung >= 4.0) {
+                return {
+                    type: "영리한 여우",
+                    emoji: "🦊",
+                    image: "images/fox-chalk.png",
+                    desc: "실전 전략과 효율을 중시하는 전략가. 학생들의 점수를 빠르게 올리는 데 특화되어 있습니다.",
+                    strength: "실전 감각과 문제 풀이 전략 전달이 뛰어나 수능에서 강합니다.",
+                    weakness: "개인별 멘탈 케어나 창의적 자료 제작이 상대적으로 약할 수 있습니다.",
+                    advice: "수능 전문 강사로 성장하기 좋은 타입입니다. 전략 자료를 더 세련되게 다듬어보세요."
+                };
+            } else {
+                return {
+                    type: "창의적인 마법사",
+                    emoji: "✨",
+                    image: "images/rabbit-chalk.png", // fallback
+                    desc: "독창적인 자료와 프레임워크를 만들며 학생들을 성장시키는 크리에이터 타입.",
+                    strength: "자료 제작력과 새로운 접근이 뛰어나 차별화된 수업이 가능합니다.",
+                    weakness: "일관된 전략이나 대형 강의의 에너지 관리가 어려울 수 있습니다.",
+                    advice: "인문논술이나 독서논술에서 강점을 발휘할 수 있어요. 첨삭과 자료 퀄리티를 더 높이세요."
+                };
+            }
+        }
+
+        function showResults(coreScore, fields, topField, topScore, personality) {
+            // Hide quiz, show results
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('results-section').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            // Core score
+            document.getElementById('core-score').innerText = coreScore.toFixed(1);
+            document.getElementById('core-bar').style.width = `${(coreScore / 5) * 100}%`;
+
+            // Field scores
+            const fieldContainer = document.getElementById('field-scores');
+            fieldContainer.innerHTML = '';
+
+            Object.entries(fields).forEach(([field, score]) => {
+                const isTop = field === topField;
+                const div = document.createElement('div');
+                div.className = `flex items-center gap-x-3 p-3 rounded-2xl ${isTop ? 'bg-[#facc15] text-[#0f3d1f]' : 'bg-[#1a4a2a]'}`;
+                div.innerHTML = `
+                    <div class="flex-1">
+                        <div class="font-bold">${field}</div>
+                        <div class="text-xs ${isTop ? 'text-[#0f3d1f]/70' : 'text-[#d1d5db]'}">평균 점수</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-bold">${score.toFixed(1)}</div>
+                        <div class="text-[10px] ${isTop ? 'text-[#0f3d1f]/70' : 'text-[#d1d5db]'}">/ 5.0</div>
+                    </div>
+                `;
+                fieldContainer.appendChild(div);
+            });
+
+            // Recommended field
+            document.getElementById('recommended-field').innerHTML = `${topField} <span class="text-base font-normal">(점수 ${topScore.toFixed(1)})</span>`;
+            
+            let fieldAdviceText = '';
+            if (topField === '초중고 독서논술') {
+                fieldAdviceText = '학생들의 흥미와 참여를 끌어내는 데 강점이 있어요. 재미있는 비유와 활동 중심 수업을 더 개발해보세요. 초중등 학원이나 독서논술 프로그램에서 두각을 나타낼 가능성이 높습니다.';
+            } else if (topField === '내신 전문') {
+                fieldAdviceText = '교과서 분석과 세밀한 피드백에 강점이 있어요. 학교 시험 대비와 수행평가 지도에서 경쟁력이 있습니다. 중등 내신 전문 학원 강사로 성장하기 좋은 타입입니다.';
+            } else if (topField === '수능 전문') {
+                fieldAdviceText = '실전 전략과 점수 상승에 특화되어 있어요. 비문학 독해와 시간 관리 전략을 더 다듬으면 대형 수능 학원이나 온라인 인강에서도 잘 통할 수 있습니다.';
+            } else {
+                fieldAdviceText = '논증력과 첨삭 능력이 뛰어나요. 인문논술 전문 학원이나 대학 입시 논술반에서 강사로 활동하기에 적합합니다. 대학별 기출 분석 능력을 더 키워보세요.';
+            }
+            document.getElementById('field-advice').innerText = fieldAdviceText;
+
+            // Personality
+            const persCard = document.getElementById('personality-card');
+            persCard.innerHTML = `
+                <div class="flex-shrink-0">
+                    <img src="${personality.image}" class="w-28 h-28 object-contain rounded-2xl border-4 border-[#0f3d1f]" alt="${personality.type}">
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-x-2 mb-1">
+                        <span class="text-4xl">${personality.emoji}</span>
+                        <span class="font-bold text-3xl">${personality.type}</span>
+                    </div>
+                    <p class="text-[#0f3d1f] mb-3">${personality.desc}</p>
+                    
+                    <div class="grid grid-cols-1 gap-y-2 text-sm">
+                        <div><span class="font-bold text-[#0f3d1f]">강점:</span> ${personality.strength}</div>
+                        <div><span class="font-bold text-[#0f3d1f]">보완점:</span> ${personality.weakness}</div>
+                    </div>
+                </div>
+            `;
+
+            // Strengths & Weaknesses (general based on top field + core)
+            const strengthsEl = document.getElementById('strengths-list');
+            const weaknessesEl = document.getElementById('weaknesses-list');
+
+            let strengthsHTML = '';
+            let weaknessesHTML = '';
+
+            if (coreScore >= 4.0) strengthsHTML += `<div>• 전반적인 강의 기반이 탄탄합니다</div>`;
+            if (topScore >= 4.2) strengthsHTML += `<div>• ${topField} 분야에서 두각을 나타낼 가능성이 매우 높아요</div>`;
+            
+            if (personality.type.includes('토끼')) {
+                strengthsHTML += `<div>• 학생들을 즐겁게 만드는 에너지와 창의력</div>`;
+                weaknessesHTML += `<div>• 깊이 있는 분석이나 장기 전략 수립</div>`;
+            } else if (personality.type.includes('올빼미')) {
+                strengthsHTML += `<div>• 논리적 분석력과 세밀한 설명 능력</div>`;
+                weaknessesHTML += `<div>• 수업의 재미와 에너지 유지</div>`;
+            } else if (personality.type.includes('여우')) {
+                strengthsHTML += `<div>• 실전 전략 전달과 점수 상승 노하우</div>`;
+                weaknessesHTML += `<div>• 개별 학생 멘탈 관리와 창의적 자료</div>`;
+            } else {
+                strengthsHTML += `<div>• 독창적인 자료 제작과 새로운 접근</div>`;
+                weaknessesHTML += `<div>• 일관된 커리큘럼 운영과 대형 강의 운영</div>`;
+            }
+
+            if (!strengthsHTML) strengthsHTML = `<div>• 현재 균형 잡힌 역량을 가지고 있습니다</div>`;
+            if (!weaknessesHTML) weaknessesHTML = `<div>• 큰 약점 없이 골고루 성장 중입니다</div>`;
+
+            strengthsEl.innerHTML = strengthsHTML;
+            weaknessesEl.innerHTML = weaknessesHTML;
+
+            // Growth advice
+            let growthText = `현재 ${topField} 분야에서 가장 강점을 보이고 있어요. `;
+            if (coreScore < 3.8) growthText += '공통 역량(자료 제작, 학생 진단)을 조금 더 다듬는다면 전체적인 퀄리티가 올라갈 거예요. ';
+            growthText += personality.advice;
+            document.getElementById('growth-advice').innerText = growthText;
+        }
+
+        function restartQuiz() {
+            answers = {};
+            document.getElementById('results-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('questions-container').innerHTML = '';
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('progress-text').innerText = '진행률 0%';
+            renderQuestions();
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize
+        function init() {
+            initTailwind();
+            
+            // Keyboard support hint
+            console.log('%c[칠판 테스트] 모바일 최적화 완료. GitHub Pages 배포 준비됨.', 'color:#6b7f5e');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
