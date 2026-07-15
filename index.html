@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>칠판 테스트 | 국어 강사 자가진단</title>
+    <title>나는 어떤 국어선생님?</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -97,7 +97,7 @@
                     <i class="fa-solid fa-chalkboard text-[#0f3d1f] text-2xl"></i>
                 </div>
                 <div>
-                    <span class="chalk-font text-3xl tracking-wider">칠판 테스트</span>
+                    <span class="chalk-font text-3xl tracking-wider">나는 어떤 국어선생님?</span>
                 </div>
             </div>
             <div class="text-sm px-3 py-1 bg-[#1a4a2a] rounded-full border border-[#d1d5db]">
@@ -115,20 +115,21 @@
             </div>
             
             <h1 class="chalk-font text-6xl md:text-7xl leading-none tracking-tighter mb-4">
-                분필로 쓰는<br>내 강사 이야기
+                나는 어떤<br>국어선생님일까? 🤔
             </h1>
             <p class="text-xl text-[#d1d5db] max-w-md mx-auto mb-8">
-                학원 국어 강사로서의 강점, 약점, 그리고 나에게 맞는 전문 분야를 찾아보세요.
+                재미있게 풀면서 내 강점, 약점, 그리고 나에게 딱 맞는 스타일을 알아보자!<br>
+                <span class="text-[#facc15]">5분이면 끝!</span>
             </p>
             
             <button onclick="startQuiz()"
                     class="px-8 py-4 bg-[#facc15] hover:bg-[#eab308] text-[#0f3d1f] font-bold text-xl rounded-2xl shadow-lg flex items-center gap-x-3 mx-auto active:scale-[0.985] transition">
-                <span>지금 테스트 시작하기</span>
+                <span>바로 시작하기</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
             
             <div class="mt-6 text-sm text-[#a3b18a]">
-                총 28문항 · 약 5~7분 소요 · 결과 즉시 확인
+                총 28문항 · 진짜 5분 컷 · 결과 바로 나옴
             </div>
         </div>
     </div>
@@ -138,8 +139,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- 분야 카드 -->
             <div class="question-card rounded-3xl p-5">
-                <div class="flex items-center gap-x-3 mb-3">
-                    <i class="fa-solid fa-book text-[#facc15] text-2xl"></i>
+                <img src="images/book-pencil-chalk.png" alt="책과 연필" class="w-16 mx-auto mb-3">
+                <div class="flex items-center gap-x-3 mb-3 justify-center">
                     <span class="font-bold text-lg">전문 분야 4가지</span>
                 </div>
                 <div class="space-y-2 text-sm">
@@ -193,8 +194,8 @@
     <!-- Results Section -->
     <div id="results-section" class="hidden max-w-2xl mx-auto px-4 pb-16">
         <div class="text-center mb-8">
-            <div class="inline-block px-5 py-1.5 bg-[#facc15] text-[#0f3d1f] rounded-full text-sm font-bold mb-3">결과 분석 완료</div>
-            <h2 class="chalk-font text-5xl">분필로 쓴 당신의 이야기</h2>
+            <div class="inline-block px-5 py-1.5 bg-[#facc15] text-[#0f3d1f] rounded-full text-sm font-bold mb-3">결과 나왔어요!</div>
+            <h2 class="chalk-font text-5xl">너는 어떤 국어선생님?</h2>
         </div>
 
         <!-- Core Score -->
@@ -268,7 +269,7 @@
             <button onclick="restartQuiz()" 
                     class="flex-1 py-3.5 border-2 border-[#d1d5db] hover:bg-[#1a4a2a] rounded-2xl font-bold flex items-center justify-center gap-x-2">
                 <i class="fa-solid fa-redo"></i>
-                <span>다시 테스트하기</span>
+                <span>다시 해볼까?</span>
             </button>
             <button onclick="window.location.reload()" 
                     class="flex-1 py-3.5 bg-[#facc15] text-[#0f3d1f] font-bold rounded-2xl flex items-center justify-center gap-x-2">
@@ -383,7 +384,7 @@
             const coreDiv = document.createElement('div');
             coreDiv.innerHTML = `
                 <div class="section-header px-5 py-2.5 rounded-t-3xl mb-1">
-                    <span class="font-bold">섹션 1. 공통 핵심 역량</span>
+                    <span class="font-bold">1. 기본 역량 체크</span>
                 </div>
             `;
             questions.core.forEach(q => {
@@ -395,7 +396,7 @@
             const readingDiv = document.createElement('div');
             readingDiv.innerHTML = `
                 <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
-                    <span class="font-bold">섹션 2. 초중고 독서논술</span>
+                    <span class="font-bold">2. 초중고 독서논술</span>
                 </div>
             `;
             questions.reading.forEach(q => {
@@ -407,7 +408,7 @@
             const naesinDiv = document.createElement('div');
             naesinDiv.innerHTML = `
                 <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
-                    <span class="font-bold">섹션 3. 내신 전문</span>
+                    <span class="font-bold">3. 내신 전문</span>
                 </div>
             `;
             questions.naesin.forEach(q => {
@@ -419,7 +420,7 @@
             const sooneungDiv = document.createElement('div');
             sooneungDiv.innerHTML = `
                 <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
-                    <span class="font-bold">섹션 4. 수능 전문</span>
+                    <span class="font-bold">4. 수능 전문</span>
                 </div>
             `;
             questions.sooneung.forEach(q => {
@@ -431,7 +432,7 @@
             const nonsulDiv = document.createElement('div');
             nonsulDiv.innerHTML = `
                 <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
-                    <span class="font-bold">섹션 5. 인문논술</span>
+                    <span class="font-bold">5. 인문논술</span>
                 </div>
             `;
             questions.nonsul.forEach(q => {
@@ -443,7 +444,7 @@
             const styleDiv = document.createElement('div');
             styleDiv.innerHTML = `
                 <div class="section-header px-5 py-2.5 rounded-t-3xl mt-8 mb-1">
-                    <span class="font-bold">섹션 6. 강사 성향</span>
+                    <span class="font-bold">6. 내 스타일은?</span>
                 </div>
             `;
             questions.style.forEach(q => {
@@ -520,43 +521,43 @@
 
             if (funScore >= 8 && reading >= 4.0) {
                 return {
-                    type: "재미를 아는 토끼",
-                    emoji: "🐰",
+                    type: "신나는 토끼 선생님",
+                    emoji: "",
                     image: "images/rabbit-chalk.png",
-                    desc: "에너지가 넘치고 학생들을 즐겁게 만드는 타입. 토론과 창의적 활동을 좋아합니다.",
-                    strength: "학생 참여도와 흥미 유발이 뛰어나며, 분위기를 밝게 만듭니다.",
-                    weakness: "깊이 있는 분석이나 체계적인 전략 설명이 다소 약할 수 있습니다.",
-                    advice: "독서논술이나 초중등 프로그램에서 강점을 발휘할 수 있어요. 재미있는 자료 제작을 더 발전시키세요."
+                    desc: "수업이 항상 재미있고 에너지 넘쳐요! 학생들이 수업을 기다리게 만드는 타입.",
+                    strength: "학생들이 수업을 즐기고, 참여도가 미쳤어요. 분위기 메이커!",
+                    weakness: "조금 더 깊이 있는 분석이나 체계적인 전략 설명이 필요할 수 있어요.",
+                    advice: "독서논술이나 초중등에서 진짜 빛을 발할 거예요. 네 재미있는 자료로 학생들 사로잡아봐!"
                 };
             } else if (analysisScore >= 8 && (naesin >= 4.0 || sooneung >= 4.0)) {
                 return {
-                    type: "지혜로운 올빼미",
-                    emoji: "🦉",
+                    type: "똑똑한 올빼미 선생님",
+                    emoji: "",
                     image: "images/owl-chalk.png",
-                    desc: "깊이 파고드는 분석가. 논리와 근거를 중시하며 학생들의 이해를 세밀하게 돕습니다.",
-                    strength: "지문 분석력과 개념 설명이 뛰어나 상위권 학생들에게 큰 도움이 됩니다.",
-                    weakness: "수업이 무거워질 수 있고, 유머나 에너지 전달이 부족할 수 있습니다.",
-                    advice: "내신이나 수능 전문으로 가는 게 좋습니다. 판서와 설명의 명확성을 더 갈고닦으세요."
+                    desc: "지문을 깊게 파고드는 분석의 달인. 학생들이 '아~ 이해됐다!' 하게 만드는 타입.",
+                    strength: "설명이 명확하고 논리적이라 상위권 학생들이 특히 좋아해요.",
+                    weakness: "수업이 조금 진지해질 수 있으니 가끔 유머를 섞어보는 게 좋을 거야.",
+                    advice: "내신이나 수능 전문으로 가는 게 딱! 네 분석력을 더 믿고 밀어붙여봐."
                 };
             } else if (strategyScore >= 8 && sooneung >= 4.0) {
                 return {
-                    type: "영리한 여우",
-                    emoji: "🦊",
+                    type: "전략왕 여우 선생님",
+                    emoji: "",
                     image: "images/fox-chalk.png",
-                    desc: "실전 전략과 효율을 중시하는 전략가. 학생들의 점수를 빠르게 올리는 데 특화되어 있습니다.",
-                    strength: "실전 감각과 문제 풀이 전략 전달이 뛰어나 수능에서 강합니다.",
-                    weakness: "개인별 멘탈 케어나 창의적 자료 제작이 상대적으로 약할 수 있습니다.",
-                    advice: "수능 전문 강사로 성장하기 좋은 타입입니다. 전략 자료를 더 세련되게 다듬어보세요."
+                    desc: "실전에서 어떻게 점수를 올릴지 정확히 아는 전략가. 학생 성적을 빠르게 올려주는 타입.",
+                    strength: "문제 푸는 기술과 시간 관리 전략을 진짜 잘 알려줘. 수능에 강함!",
+                    weakness: "개인별로 조금 더 세심하게 챙겨주는 게 필요할 수 있어.",
+                    advice: "수능 전문 강사로 딱 맞아. 네 전략 자료를 더 예쁘게 다듬으면 대박 날 거야!"
                 };
             } else {
                 return {
-                    type: "창의적인 마법사",
-                    emoji: "✨",
-                    image: "images/rabbit-chalk.png", // fallback
-                    desc: "독창적인 자료와 프레임워크를 만들며 학생들을 성장시키는 크리에이터 타입.",
-                    strength: "자료 제작력과 새로운 접근이 뛰어나 차별화된 수업이 가능합니다.",
-                    weakness: "일관된 전략이나 대형 강의의 에너지 관리가 어려울 수 있습니다.",
-                    advice: "인문논술이나 독서논술에서 강점을 발휘할 수 있어요. 첨삭과 자료 퀄리티를 더 높이세요."
+                    type: "아이디어 마법사 선생님",
+                    emoji: "",
+                    image: "images/rabbit-chalk.png",
+                    desc: "항상 새로운 자료와 아이디어가 넘치는 크리에이터. 학생들이 네 수업을 기다리게 만들어.",
+                    strength: "자료 퀄리티가 미쳤고, 학생들이 '이 선생님 자료 진짜 좋다'고 해요.",
+                    weakness: "조금 더 일관된 커리큘럼이나 전략을 세우는 게 도움이 될 수 있어.",
+                    advice: "인문논술이나 독서논술 쪽에서 네 창의력을 제대로 펼쳐봐. 첨삭 실력도 키우면 금상첨화!"
                 };
             }
         }
@@ -597,13 +598,13 @@
             
             let fieldAdviceText = '';
             if (topField === '초중고 독서논술') {
-                fieldAdviceText = '학생들의 흥미와 참여를 끌어내는 데 강점이 있어요. 재미있는 비유와 활동 중심 수업을 더 개발해보세요. 초중등 학원이나 독서논술 프로그램에서 두각을 나타낼 가능성이 높습니다.';
+                fieldAdviceText = '너 진짜 학생들한테 인기 있을 타입이야! 재미있게 가르치는 게 네 강점. 초중등이나 독서논술 쪽으로 가면 학생들이 수업을 기다릴 거야. 더 재미있는 자료 만들어보자!';
             } else if (topField === '내신 전문') {
-                fieldAdviceText = '교과서 분석과 세밀한 피드백에 강점이 있어요. 학교 시험 대비와 수행평가 지도에서 경쟁력이 있습니다. 중등 내신 전문 학원 강사로 성장하기 좋은 타입입니다.';
+                fieldAdviceText = '교과서 분석하고 세밀하게 챙겨주는 데 진짜 강해. 내신 전문 학원에서 네 실력을 제대로 발휘할 수 있을 거야. 학교 시험 대비 잘하는 선생님으로 자리 잡아봐!';
             } else if (topField === '수능 전문') {
-                fieldAdviceText = '실전 전략과 점수 상승에 특화되어 있어요. 비문학 독해와 시간 관리 전략을 더 다듬으면 대형 수능 학원이나 온라인 인강에서도 잘 통할 수 있습니다.';
+                fieldAdviceText = '실전에서 어떻게 점수를 올릴지 아는 타입이야. 수능 전문으로 가는 게 제일 잘 맞을 거야. 전략 자료만 더 예쁘게 다듬으면 학생들 성적이 쭉쭉 올라갈 거야!';
             } else {
-                fieldAdviceText = '논증력과 첨삭 능력이 뛰어나요. 인문논술 전문 학원이나 대학 입시 논술반에서 강사로 활동하기에 적합합니다. 대학별 기출 분석 능력을 더 키워보세요.';
+                fieldAdviceText = '아이디어가 넘치고 창의적인 타입! 인문논술이나 고급 독서논술 쪽에서 네 진가를 발휘할 수 있어. 첨삭 실력만 더 키우면 진짜 대박 날 거야.';
             }
             document.getElementById('field-advice').innerText = fieldAdviceText;
 
@@ -658,8 +659,8 @@
             weaknessesEl.innerHTML = weaknessesHTML;
 
             // Growth advice
-            let growthText = `현재 ${topField} 분야에서 가장 강점을 보이고 있어요. `;
-            if (coreScore < 3.8) growthText += '공통 역량(자료 제작, 학생 진단)을 조금 더 다듬는다면 전체적인 퀄리티가 올라갈 거예요. ';
+            let growthText = `너 지금 ${topField} 쪽으로 제일 잘 맞아! `;
+            if (coreScore < 3.8) growthText += '기본적인 자료 만들기랑 학생 분석력만 조금 더 키우면 진짜 탄탄해질 거야. ';
             growthText += personality.advice;
             document.getElementById('growth-advice').innerText = growthText;
         }
